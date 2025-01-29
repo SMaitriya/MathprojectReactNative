@@ -59,10 +59,10 @@ export default function App() {
     }
 
 
-// Fonction de réinitialisation du jeu :
-// - Génère de nouveaux nombres aléatoires
-// - Réinitialise le timer au temps maximum
-// - Réinitialise l'interface (réponse utilisateur, bouton, messages)
+    // Fonction de réinitialisation du jeu :
+    // - Génère de nouveaux nombres aléatoires
+    // - Réinitialise le timer au temps maximum
+    // - Réinitialise l'interface (réponse utilisateur, bouton, messages)
     const handleReset = () => {
         setFirstNumber(RandomNumber());
         setSecondNumber(RandomNumber());
@@ -89,68 +89,108 @@ export default function App() {
 
     // useffect qui enleve le bouton submit et envoie un message de fin de partie avec la réponse attendu lorsque le temps atteint 0
     useEffect(() => {
-        if (time === 0) {
+        if (time === 0 && gameMode !== 'menu') {
             setbtnEnable(false);
-            setMessage("You lost ! , the correct answer is " + solution)
+            setMessage("Time's up ! The right answer was " + solution)
         }
     }, [time])
 
     return (
-        <View style={styles.container}>
-
-            {/* Section qui affiche le menu du jeu , soit en easy soit hard */}
+        <View style={styles.body}>
             
-            {gameMode === 'menu' ? (
-                <View style={styles.box}>
-                    <Text style={styles.title}>Math Game</Text>
-                    <Button
-                        title="EASY"
-                        onPress={() => setGameMode('easy')}
-                    />
-                    <Button
-                        title="HARD"
-                        onPress={() => {setGameMode('hard'); setTime(10);}}
-                    />
-                </View>
-            ) : (
+             {gameMode == 'menu' ? null : <Text style={styles.timer}>{formatTime(time)}</Text>}
 
-                <View style={styles.box}>
-                {/* Si gameMode est 'menu', affiche le menu, sinon affiche le jeu */}
+            <View style={styles.container}>
 
-                    <Text>{formatTime(time)}</Text>
-                    {/* Affiche le troisième nombre uniquement en mode 'hard' */}
-                    <Text>{firstNumber} + {secondNumber} {gameMode === 'hard' ? "+" + thirdNumber : ''}= ?</Text>
-                    <TextInput
-                        placeholder='answer'
-                        keyboardType="numeric"
-                        value={userAnswer}
-                        onChangeText={setUserAnswer}
-                    />
-                    <Button
-                        title="Submit"
-                        onPress={handleSubmit}
-                        disabled={!btnEnable}
-                    />
-                    <Text style={{
-                        color: message === 'Right answer !' ? 'green'
-                            : message === 'Wrong answer!' ? 'red'
-                            : 'black'
-                    }}>
-                        {message}
-                    </Text>
-                    <Button title='Reset' onPress={handleReset} />
-                    <Button title='New' onPress={ () => setGameMode('menu')}></Button>
-                </View>
-            )}
+                {/* Section qui affiche le menu du jeu , soit en easy soit hard */}
+
+                {gameMode === 'menu' ? (
+                    <View style={styles.box}>
+                        <Text style={styles.title}>Math Game</Text>
+                        <View style={styles.menubutton}>
+                        <Button
+                            title="EASY"
+                            style={styles.button}
+                            onPress={() => {setGameMode('easy'); setTime(MAX_TIME);}}
+                        />
+                        <Button
+                            title="HARD"
+                            style={styles.button}
+                            onPress={() => { setGameMode('hard'); setTime(10); }}
+                        />
+                        </View>
+                    </View>
+                ) : (
+
+                    <View style={styles.box}>
+                        {/* Si gameMode est 'menu', affiche le menu, sinon affiche le jeu */}
+
+                       
+                        {/* Affiche le troisième nombre uniquement en mode 'hard' */}
+                        <Text style={styles.number}>{firstNumber} + {secondNumber} {gameMode === 'hard' ? "+ " + thirdNumber : ''}= ?</Text>
+                        <TextInput style={styles.answer}
+                            placeholder='answer'
+                            keyboardType="numeric"
+                            value={userAnswer}
+                            onChangeText={setUserAnswer}
+                        />
+                        <View style={styles.submit}>
+
+                        <Button color="green"
+                            
+                        
+                            title="Submit"
+                            onPress={handleSubmit}
+                            disabled={!btnEnable}
+                        />
+                        </View>
+                        
+                        <Text style= {[
+                            styles.message,
+
+                            {color: message === 'Right answer !' ? 'green'
+                                : message === 'Wrong answer!' ? 'red'
+                                    : 'black'
+                        }]}>
+                            {message}
+                        </Text>
+                        <Button  color="red" style={styles.reset} title='Reset' onPress={handleReset} />
+
+                    </View>
+                )}
+            </View>
+            <View style={styles.newGame}>
+                {gameMode === 'menu' ? null : <Button color="black" title='New Game' onPress={() => setGameMode('menu')}></Button>}
+               
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    body: {
+
         flex: 1,
-        backgroundColor: 'greywhite',
         justifyContent: 'center',
+        backgroundColor: 'lightblue',
+    },
+
+    timer: {
+        fontSize: 48, 
+        fontWeight: 'bold',
+        color: '#333', 
+        textAlign: 'center',
+        padding: 10,
+        backgroundColor: 'white',
+        borderRadius: 10, 
+        borderWidth: 2,
+        borderColor: '#333',
+        marginBottom: 20,
+        width: 150,  
+        alignSelf: 'center',  
+    },
+    container: {
+        
     },
     box: {
         padding: 20,
@@ -159,8 +199,57 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
     },
+    number: {
+        fontSize: 50,
+
+    },
+  
+answer: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#333',
+    marginTop: 60,  
+    width: 200,  
+},
+message: {
+    fontSize: 20,
+    marginTop: 40,
+    marginBottom: 40,
+},
+submit : {
+    marginTop: 50,
+    width: 200,
+},
+
+    newGame: {
+        backgroundColor: 'black',
+        width: 200,
+        alignSelf: 'center',  
+        marginTop: 100,
+
+    },
+
+    menubutton: {
+        flexDirection: 'row', 
+        gap: 20,             
+        justifyContent: 'center', 
+        width: '100%',
+        marginTop: 100,
+    },
+
+    button: {
+        marginTop: 20,
+        backgroundColor: 'pink',
+        
+    
+
+    },
     title: {
-        fontSize: 24,
+        fontSize: 40,
         fontWeight: 'bold',
         marginBottom: 20,
     }
