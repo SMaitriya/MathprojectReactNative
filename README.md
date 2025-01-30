@@ -38,5 +38,4 @@ npm install
 ### Use npx to start the project with Expo
 npx expo start
 
-## Once the command is executed, a QR code will be generated in your terminal.
-## You can scan this QR code using the Expo Go app on your mobile device to see the app in action.
+### Once the command is executed, a QR code will be generated in your terminal. You can scan this QR code using the Expo Go app on your mobile device to see the app in action.
