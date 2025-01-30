@@ -25,19 +25,18 @@ Math Game is a math game application that offers a mental arithmetic challenge w
 
 # Steps to Start the Project with Expo
 
-# Step 1: Clone the Project
-# Clone the Git repository to your local machine and navigate to the project directory
+## Step 1: Clone the Project
+### Clone the Git repository to your local machine and navigate to the project directory
 git clone https://github.com/yourusername/MathGame.git
 cd MathGame
 
-# Step 2: Install Dependencies
-# Install all necessary dependencies (such as React Native, Expo) with npm
+## Step 2: Install Dependencies
+### Install all necessary dependencies (such as React Native, Expo) with npm
 npm install
 
-# Step 3: Start the Development Server
-# Use npx to start the project with Expo
+## Step 3: Start the Development Server
+### Use npx to start the project with Expo
 npx expo start
 
-# Once the command is executed, a QR code will be generated in your terminal.
-# You can scan this QR code using the Expo Go app on your mobile device
-# to see the app in action.
+## Once the command is executed, a QR code will be generated in your terminal.
+## You can scan this QR code using the Expo Go app on your mobile device to see the app in action.
